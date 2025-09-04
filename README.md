@@ -3,7 +3,7 @@
 **Goal:** This pipeline aligns reads to a reference genome in order to quantify genes and transcripts from RNA-Seq data.
 
 ## Visual Summary
-<img src="images/visual_summary.png" alt="visual summary" width="600"/>
+<img src="images/visual_summary.png" alt="visual summary" width="700"/>
 
 ## Overview
 Starting with fastq files and a sample sheet, this pipeline will do the following:
@@ -23,15 +23,22 @@ Starting with fastq files and a sample sheet, this pipeline will do the followin
 3. Normalize expression data in a few ways, such as VST, log2CPM, and z-score
 4. **Note:** The final expression file can be used as input into a differential expression (DE) workflow
 
-## Final Excel File
-<img src="images/example_output.png" alt="example output" width="700"/>
+## Example File: Gene Expression Data
+<img src="images/example_data.png" alt="example data" width="700"/>
+
+## Example File: MultiQC Report
+<img src="images/example_report.png" alt="example report" width="700"/>
 
 ## FAQ
 1. Where can I find the fastq files and sample sheet that are used as inputs?
 	- **[PublicStudy_GoldMiner](https://github.com/matthewonorato/PublicStudy_GoldMiner).** Right now this pipeline takes in publicly available RNA-Seq data with the metadata cleaned and formatted from `PublicStudy_GoldMiner`.
-2. What type of RNA-Seq data can this pipeline handle?
+2. Where can I find the reference files that are also used as inputs?
+	- **[Reference_Librarian](https://github.com/matthewonorato/Reference_Librarian).** Reference files, such as genomic FASTA and GTF files, can be easily obtained using `Reference_Librarian`.
+3. What type of RNA-Seq data can this pipeline handle?
 	- **Both single-end and paired-end data.** Using info from the sample sheet, the pipeline will utilize the appropriate commands and parameters for single-end or paired-end reads. 
-3. What's with all of the different normalizations?
+4. Why are the trimmed FASTQ files not saved?
+	- The main reason is to save on space. In addition, these files can be reconstructed from the saved BAM files if needed.
+5. What's with all of the different normalizations?
 	- Normalization is important account for technical variability, such as different read depths across samples, and to limit false positives and negatives. Use VST for QC (like PCA), TPM for within sample comparisons, and CPM+TMM for across sample comparisons (like DE). With that said, each normalization has it's strengths and weaknesses:
 	    - **Counts** (input for normalization): Do not use directly, as counts are unnormalized
 	    - **VST** (QC): Reduces the dependence of the variance on the mean
